@@ -32,22 +32,28 @@ body {
   font-weight: 800;
 }
 
-.container .calc-zero {
+.container .zero {
   grid-column: 1 / span 2;
 }
 
 .container .ac,
 .pos-neg,
 .percent,
-.calc-divide,
-.calc-multiply,
-.calc-plus,
-.calc-minus,
-.calc-equal {
+.divide,
+.multiply,
+.plus,
+.minus,
+.equal {
   background-color: darkgray;
+  font-weight: 800;
 }
 
-.input-display {
+.display {
   padding: 80px;
   border-bottom: 10px solid black;
+}
+
+.display p {
+  text-align: right;
+  font-size: 3em;
 }
