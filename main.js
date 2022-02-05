@@ -34,6 +34,9 @@ const calcButtons = document.querySelectorAll(".buttons .calc");
 
 calcButtons.forEach((button) =>
   button.addEventListener("click", (e) => {
+    if (typeof result === "number" && e.target.textContent !== "0") {
+      clearDisplay();
+    }
     displayValue = displayValue.concat(e.target.textContent);
     updateDisplay();
   })
@@ -48,38 +51,51 @@ let result;
 const operatorButtons = document.querySelectorAll(".buttons .operator");
 operatorButtons.forEach((button) =>
   button.addEventListener("click", (e) => {
-    //if firstNum has number
+    if (typeof firstNum !== "undefined") {
+      if (typeof secondNum === "undefined") {
+        secondNum = Number(displayValue);
+        displayValue = "";
+      }
+    }
     if (typeof firstNum === "undefined") {
       firstNum = Number(displayValue);
-      clearDisplay();
-    } else if (typeof secondNum === "undefined") {
-      secondNum = Number(displayValue);
-      clearDisplay();
+      displayValue = "";
     }
-    if (e.target.classList.contains("add")) {
-      result = operate(add, firstNum, secondNum);
-    }
-    if (e.target.classList.contains("subtract")) {
-      result = operate(subtract, firstNum, secondNum);
-    }
-    if (e.target.classList.contains("multiply")) {
-      result = operate(multiply, firstNum, secondNum);
-    }
-    if (e.target.classList.contains("divide")) {
-      result = operate(divide, firstNum, secondNum);
+    if (typeof firstNum !== "undefined" && typeof secondNum !== "undefined") {
+      if (e.target.classList.contains("add")) {
+        result = operate(add, firstNum, secondNum);
+        clearDisplay();
+        displayValue = result.toString();
+        updateDisplay();
+        firstNum = result;
+        secondNum = undefined;
+      }
+      if (e.target.classList.contains("subtract")) {
+        result = operate(subtract, firstNum, secondNum);
+        clearDisplay();
+        displayValue = result.toString();
+        updateDisplay();
+        firstNum = result;
+        secondNum = undefined;
+      }
+      if (e.target.classList.contains("multiply")) {
+        result = operate(multiply, firstNum, secondNum);
+        clearDisplay();
+        displayValue = result.toString();
+        updateDisplay();
+        firstNum = result;
+        secondNum = undefined;
+      }
+      if (e.target.classList.contains("divide")) {
+        result = operate(divide, firstNum, secondNum);
+        clearDisplay();
+        displayValue = result.toString();
+        updateDisplay();
+        firstNum = result;
+        secondNum = undefined;
+      }
     }
   })
 );
 
-// suppose add 1 and 2
-
-// click button 1
-// store num to firstNum and display-value
-// parse the num first
-// click plus operation
-// click button 2
-// click operates
-// display result
-//
-// every time a num button is pressed, call updateDisplay
-//
+// TODO: RESET EVERYTHING
