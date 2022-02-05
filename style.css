@@ -2,7 +2,8 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
 }
 html,
 body {
@@ -28,11 +29,22 @@ body {
 .container button {
   padding: 50px;
   font-size: 1.5em;
-  font-weight: 70;
+  font-weight: 800;
 }
 
 .container .calc-zero {
   grid-column: 1 / span 2;
+}
+
+.container .ac,
+.pos-neg,
+.percent,
+.calc-divide,
+.calc-multiply,
+.calc-plus,
+.calc-minus,
+.calc-equal {
+  background-color: darkgray;
 }
 
 .input-display {
