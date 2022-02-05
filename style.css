@@ -41,8 +41,8 @@ body {
 .percent,
 .divide,
 .multiply,
-.plus,
-.minus,
+.add,
+.subtract,
 .equal {
   background-color: darkgray;
   font-weight: 800;
