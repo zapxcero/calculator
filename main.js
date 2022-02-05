@@ -18,84 +18,84 @@ function operate(operator, num1, num2) {
   return operator(num1, num2);
 }
 
-function updateDisplay() {
-  input.textContent = displayValue;
+function equal() {
+  if (typeof n1 !== "undefined" && typeof n2 !== "undefined") {
+    if (typeof operation !== "undefined") {
+      result = operate(operation, n1, n2);
+      console.log(result);
+    }
+  }
+  operation = undefined;
+  n1 = result;
+  n2 = undefined;
 }
 
-function clearDisplay() {
-  input.textContent = "";
-  displayValue = "";
-}
-
-const input = document.querySelector(".input");
-let displayValue = "";
+//fnum = displayVal after operation is clicked
+//if operation is clicked, set operation to e.target.classList.contains
+//snum = displayVal
+//if equal is clicked,
 
 const calcButtons = document.querySelectorAll(".buttons .calc");
-
+let val = "";
 calcButtons.forEach((button) =>
   button.addEventListener("click", (e) => {
-    if (typeof result === "number" && e.target.textContent !== "0") {
-      clearDisplay();
-    }
-    displayValue = displayValue.concat(e.target.textContent);
-    updateDisplay();
+    val = val.concat(e.target.textContent);
+    console.log(val);
   })
 );
 
-const clearButton = document.querySelector(".ac");
-clearButton.addEventListener("click", clearDisplay);
-
-let firstNum;
-let secondNum;
+const operators = document.querySelectorAll(".buttons .operator");
+let operation;
+let n1;
+let n2;
 let result;
-const operatorButtons = document.querySelectorAll(".buttons .operator");
-operatorButtons.forEach((button) =>
+operators.forEach((button) =>
   button.addEventListener("click", (e) => {
-    if (typeof firstNum !== "undefined") {
-      if (typeof secondNum === "undefined") {
-        secondNum = Number(displayValue);
-        displayValue = "";
-      }
+    if (typeof n1 === "undefined") {
+      n1 = Number(val);
+      val = "";
+    } else if (typeof n2 === "undefined" && val !== "") {
+      n2 = Number(val);
+      val = "";
     }
-    if (typeof firstNum === "undefined") {
-      firstNum = Number(displayValue);
-      displayValue = "";
+    if (e.target.classList.contains("add")) {
+      console.log("+");
+      operation = add;
     }
-    if (typeof firstNum !== "undefined" && typeof secondNum !== "undefined") {
+    if (e.target.classList.contains("subtract")) {
+      console.log("-");
+      operation = subtract;
+    }
+    if (e.target.classList.contains("multiply")) {
+      console.log("*");
+      operation = multiply;
+    }
+    if (e.target.classList.contains("divide")) {
+      console.log("/");
+      operation = divide;
+    }
+    if (typeof n1 !== "undefined" && typeof n2 !== "undefined") {
       if (e.target.classList.contains("add")) {
-        result = operate(add, firstNum, secondNum);
-        clearDisplay();
-        displayValue = result.toString();
-        updateDisplay();
-        firstNum = result;
-        secondNum = undefined;
+        operation = add;
+        equal();
       }
       if (e.target.classList.contains("subtract")) {
-        result = operate(subtract, firstNum, secondNum);
-        clearDisplay();
-        displayValue = result.toString();
-        updateDisplay();
-        firstNum = result;
-        secondNum = undefined;
+        operation = subtract;
+        equal();
       }
       if (e.target.classList.contains("multiply")) {
-        result = operate(multiply, firstNum, secondNum);
-        clearDisplay();
-        displayValue = result.toString();
-        updateDisplay();
-        firstNum = result;
-        secondNum = undefined;
+        operation = multiply;
+        equal();
       }
       if (e.target.classList.contains("divide")) {
-        result = operate(divide, firstNum, secondNum);
-        clearDisplay();
-        displayValue = result.toString();
-        updateDisplay();
-        firstNum = result;
-        secondNum = undefined;
+        operation = divide;
+        equal();
       }
     }
   })
 );
 
-// TODO: RESET EVERYTHING
+const equalButton = document.querySelector(".buttons .equal");
+equalButton.addEventListener("click", equal);
+
+// TODO: add display, make limit decimal point, add clear, add percent, add negative positive

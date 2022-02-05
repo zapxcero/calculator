@@ -10,6 +10,10 @@ body {
   height: 100%;
 }
 
+body {
+  background-color: honeydew;
+}
+
 .flex {
   display: flex;
   justify-content: center;
