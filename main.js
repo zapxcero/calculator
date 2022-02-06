@@ -30,15 +30,13 @@ function equal() {
   n2 = undefined;
 }
 
-//fnum = displayVal after operation is clicked
-//if operation is clicked, set operation to e.target.classList.contains
-//snum = displayVal
-//if equal is clicked,
-
 const calcButtons = document.querySelectorAll(".buttons .calc");
 let val = "";
 calcButtons.forEach((button) =>
   button.addEventListener("click", (e) => {
+    if (val.includes(".") && e.target.textContent === ".") {
+      return;
+    }
     val = val.concat(e.target.textContent);
     console.log(val);
   })
@@ -98,4 +96,4 @@ operators.forEach((button) =>
 const equalButton = document.querySelector(".buttons .equal");
 equalButton.addEventListener("click", equal);
 
-// TODO: add display, make limit decimal point, add clear, add percent, add negative positive
+// TODO: add display, add clear, add percent, add negative positive
