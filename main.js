@@ -1,99 +1,101 @@
-function add(num1, num2) {
-  return num1 + num2;
-}
+class Calculator {
+  constructor(prevElement, currentElement) {
+    this.prevElement = prevElement;
+    this.currentElement = currentElement;
+    this.currentOperand = "";
+    this.prevOperand = "";
+    this.operation = undefined;
+  }
+  clear() {
+    this.currentOperand = "";
+    this.prevOperan = this.currentOperand = "";
+    this.operation = undefined;
+  }
+  delete() {
+    this.currentOperand = this.currentOperand.toString().slice(0, -1);
+  }
+  appendNum(num) {
+    if (num === "." && this.currentOperand.includes(".")) return;
+    this.currentOperand += num.toString();
+  }
+  chooseOp(operation) {
+    if (this.currentOperand === "") return;
+    if (this.prevOperand !== "") {
+      this.compute();
+    }
+    this.operation = operation;
+    this.prevOperand = this.currentOperand;
+    this.currentOperand = "";
+  }
+  compute() {
+    let result;
+    const prev = Number(this.prevOperand);
+    const current = Number(this.currentOperand);
 
-function subtract(num1, num2) {
-  return num1 - num2;
-}
-
-function multiply(num1, num2) {
-  return num1 * num2;
-}
-
-function divide(num1, num2) {
-  return num1 / num2;
-}
-
-function operate(operator, num1, num2) {
-  return operator(num1, num2);
-}
-
-function equal() {
-  if (typeof n1 !== "undefined" && typeof n2 !== "undefined") {
-    if (typeof operation !== "undefined") {
-      result = operate(operation, n1, n2);
-      console.log(result);
+    if (isNaN(prev) || isNaN(current)) return;
+    switch (this.operation) {
+      case "+":
+        result = prev + current;
+        break;
+      case "-":
+        result = prev - current;
+        break;
+      case "*":
+        result = prev * current;
+        break;
+      case "/":
+        result = prev / current;
+        break;
+      default:
+        return;
+    }
+    this.currentOperand = result;
+    this.prevOperand = "";
+    this.operation = undefined;
+  }
+  updateDisplay() {
+    this.currentElement.textContent = this.currentOperand;
+    if (this.operation !== undefined) {
+      this.prevElement.textContent = `${this.prevOperand} ${this.operation}`;
     }
   }
-  operation = undefined;
-  n1 = result;
-  n2 = undefined;
 }
 
-const calcButtons = document.querySelectorAll(".buttons .calc");
-let val = "";
-calcButtons.forEach((button) =>
-  button.addEventListener("click", (e) => {
-    if (val.includes(".") && e.target.textContent === ".") {
-      return;
-    }
-    val = val.concat(e.target.textContent);
-    console.log(val);
+const prevElement = document.querySelector(".prev");
+const currentElement = document.querySelector(".current");
+
+const calculator = new Calculator(prevElement, currentElement);
+
+const numButtons = document.querySelectorAll(".buttons .calc");
+numButtons.forEach((button) =>
+  button.addEventListener("click", () => {
+    calculator.appendNum(button.textContent);
+    calculator.updateDisplay();
   })
 );
 
-const operators = document.querySelectorAll(".buttons .operator");
-let operation;
-let n1;
-let n2;
-let result;
-operators.forEach((button) =>
-  button.addEventListener("click", (e) => {
-    if (typeof n1 === "undefined") {
-      n1 = Number(val);
-      val = "";
-    } else if (typeof n2 === "undefined" && val !== "") {
-      n2 = Number(val);
-      val = "";
-    }
-    if (e.target.classList.contains("add")) {
-      console.log("+");
-      operation = add;
-    }
-    if (e.target.classList.contains("subtract")) {
-      console.log("-");
-      operation = subtract;
-    }
-    if (e.target.classList.contains("multiply")) {
-      console.log("*");
-      operation = multiply;
-    }
-    if (e.target.classList.contains("divide")) {
-      console.log("/");
-      operation = divide;
-    }
-    if (typeof n1 !== "undefined" && typeof n2 !== "undefined") {
-      if (e.target.classList.contains("add")) {
-        operation = add;
-        equal();
-      }
-      if (e.target.classList.contains("subtract")) {
-        operation = subtract;
-        equal();
-      }
-      if (e.target.classList.contains("multiply")) {
-        operation = multiply;
-        equal();
-      }
-      if (e.target.classList.contains("divide")) {
-        operation = divide;
-        equal();
-      }
-    }
+const operationButtons = document.querySelectorAll(".buttons .operator");
+operationButtons.forEach((button) =>
+  button.addEventListener("click", () => {
+    calculator.chooseOp(button.textContent);
+    calculator.updateDisplay();
   })
 );
 
-const equalButton = document.querySelector(".buttons .equal");
-equalButton.addEventListener("click", equal);
+const equalButton = document.querySelector(".equal");
+equalButton.addEventListener("click", () => {
+  calculator.compute();
+  calculator.updateDisplay();
+});
 
-// TODO: add display, add clear, add percent, add negative positive
+const allClearButton = document.querySelector(".ac");
+allClearButton.addEventListener("click", () => {
+  calculator.clear();
+  calculator.updateDisplay();
+});
+
+const deleteButton = document.querySelector(".delete");
+deleteButton.addEventListener("click", () => {
+  calculator.delete();
+  calculator.updateDisplay();
+});

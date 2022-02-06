@@ -22,7 +22,7 @@ body {
 
 .grid-container {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, 150px);
 }
 
 /* styles */
@@ -41,7 +41,7 @@ body {
 }
 
 .container .ac,
-.pos-neg,
+.delete,
 .percent,
 .divide,
 .multiply,
@@ -55,9 +55,14 @@ body {
 .display {
   padding: 80px;
   border-bottom: 10px solid black;
+  text-align: right;
 }
 
-.display p {
-  text-align: right;
+.display .current {
   font-size: 3em;
+}
+
+.display .prev {
+  color: gray;
+  font-size: 1.5em;
 }
